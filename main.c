@@ -69,6 +69,7 @@
 
 void Gpio_peripheral_init(void)
 {
+	
 	uint32_t *reg_add_port= GPIO_PORT_1_PINOUT_5;
 	uint32_t *reg_add_config= GPIO_PORT_1_CONFIG_5;
 
@@ -104,6 +105,7 @@ void Gpio_peripheral_init(void)
 
 void Blink_led(void)
 {
+	
 
 	uint32_t *reg_add_outset= GPIO_PORT_1_OUTSET_5;
 	uint32_t *reg_add_outclr= GPIO_PORT_1_OUTCLR_5;
