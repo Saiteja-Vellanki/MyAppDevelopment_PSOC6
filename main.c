@@ -136,7 +136,7 @@ void Blink_led(void)
 
     if(pin_read == BUTTON_PRESSED)
    {
-        *reg_add_outclr |= (1<<5);
+            *reg_add_outclr |= (1<<5);
 	    cyhal_system_delay_ms(100);
 	    *reg_add_outset |= (1<<5);
 	    cyhal_system_delay_ms(100);
@@ -164,11 +164,11 @@ void Blink_led(void)
     else
     {
     	// Keeping pin high to set LED OFF
-    	*reg_add_outset  |= (1<<5);
-    	*reg_add_outset1 |= (1<<3);
-    	*reg_add_outset2 |= (1<<1);
-    	*reg_add_outset3 |= (1<<1);
-    	*reg_add_outset4 |= (1<<7);
+    	    *reg_add_outset  |= (1<<5);
+    	    *reg_add_outset1 |= (1<<3);
+    	    *reg_add_outset2 |= (1<<1);
+    	    *reg_add_outset3 |= (1<<1);
+    	    *reg_add_outset4 |= (1<<7);
     }
 }
 
