@@ -46,24 +46,48 @@
 #define MY_APP_LOG "S->MAD_ver_1.0"    //MAD -> My Application Development
 
 #define BUTTON_PRESSED  0
+
+/* GPIO_PRT0_IN, pin 4 Read-Only Register.
+ * Software Read-Only, Hardware Write-Only
+ * Using const keyword here.
+ */
 #define GPIO_PORT_0_PININ_4   (uint32_t*)0x40320010
 
+/*GPIO_PRT13_OUT, Keeping pin 7 OUT for port-13 register
+ *GPIO_PRT13_CFG, Keeping GPIO strong for pin 7
+ *GPIO_PRT13_OUT_SET, setting pin HIGH for pin 7
+ *GPIO_PRT13_OUT_CLR, setting pin LOW for pin 7
+ */
 #define GPIO_PORT_13_PINOUT_7 (uint32_t*)0x40320680
 #define GPIO_PORT_13_CONFIG_7 (uint32_t*)0x403206A8
 #define GPIO_PORT_13_OUTSET_7 (uint32_t*)0x40320688
 #define GPIO_PORT_13_OUTCLR_7 (uint32_t*)0x40320684
 
+/*GPIO_PRT11_OUT, Keeping pin 1 OUT for port-11 register
+ *GPIO_PRT11_CFG, Keeping GPIO strong for pin 1
+ *GPIO_PRT11_OUT_SET, setting pin HIGH for pin 1
+ *GPIO_PRT11_OUT_CLR, setting pin LOW for pin 1
+ */
 #define GPIO_PORT_11_PINOUT_1 (uint32_t*)0x40320580
 #define GPIO_PORT_11_CONFIG_1 (uint32_t*)0x403205A8
 #define GPIO_PORT_11_OUTSET_1 (uint32_t*)0x40320588
 #define GPIO_PORT_11_OUTCLR_1 (uint32_t*)0x40320584
 
+/*GPIO_PRT0_OUT, Keeping pin 3 OUT for port-0 register
+ *GPIO_PRT0_CFG, Keeping GPIO strong for pin 3
+ *GPIO_PRT0_OUT_SET, setting pin HIGH for pin 3
+ *GPIO_PRT0_OUT_CLR, setting pin LOW for pin 3
+ */
 #define GPIO_PORT_0_PINOUT_3 (uint32_t*)0x40320000
 #define GPIO_PORT_0_CONFIG_3 (uint32_t*)0x40320028
 #define GPIO_PORT_0_OUTSET_3 (uint32_t*)0x40320008
 #define GPIO_PORT_0_OUTCLR_3 (uint32_t*)0x40320004
 
-
+/*GPIO_PRT1_OUT, Keeping pin 5 OUT for port-1 register
+ *GPIO_PRT1_CFG, Keeping GPIO strong for pin 5
+ *GPIO_PRT1_OUT_SET, setting pin HIGH for pin 5
+ *GPIO_PRT1_OUT_CLR, setting pin LOW for pin 5
+ */
 #define GPIO_PORT_1_PINOUT_5 (uint32_t*)0x40320080
 #define GPIO_PORT_1_CONFIG_5 (uint32_t*)0x403200A8
 #define GPIO_PORT_1_OUTSET_5 (uint32_t*)0x40320088
@@ -87,11 +111,7 @@ void Gpio_peripheral_init(void)
     uint32_t *reg_add_port4= GPIO_PORT_13_PINOUT_7;
     uint32_t *reg_add_config4= GPIO_PORT_13_CONFIG_7;
 
-
-
-
-
-	*reg_add_port    |= (1<<5);
+    *reg_add_port    |= (1<<5);
 	*reg_add_config  |= (6<<20);
 
 	*reg_add_port1   |= (1<<3);
@@ -130,13 +150,13 @@ void Blink_led(void)
     uint32_t *reg_add_outset4= GPIO_PORT_13_OUTSET_7;
     uint32_t *reg_add_outclr4= GPIO_PORT_13_OUTCLR_7;
 
-    uint32_t *reg_add_pinread = GPIO_PORT_0_PININ_4;
-    uint32_t pin_read = *reg_add_pinread;
+    uint32_t const *reg_add_pinread = GPIO_PORT_0_PININ_4;
+    uint32_t const pin_read = *reg_add_pinread;
 
 
     if(pin_read == BUTTON_PRESSED)
    {
-            *reg_add_outclr |= (1<<5);
+        *reg_add_outclr |= (1<<5);
 	    cyhal_system_delay_ms(100);
 	    *reg_add_outset |= (1<<5);
 	    cyhal_system_delay_ms(100);
