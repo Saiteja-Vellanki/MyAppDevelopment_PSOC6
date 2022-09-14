@@ -45,6 +45,8 @@
 
 #define MY_APP_LOG "S->MAD_ver_1.0"    //MAD -> My Application Development
 
+#define BUTTON_PRESSED  0
+#define GPIO_PORT_0_PININ_4   (uint32_t*)0x40320010
 
 #define GPIO_PORT_13_PINOUT_7 (uint32_t*)0x40320680
 #define GPIO_PORT_13_CONFIG_7 (uint32_t*)0x403206A8
@@ -85,6 +87,10 @@ void Gpio_peripheral_init(void)
     uint32_t *reg_add_port4= GPIO_PORT_13_PINOUT_7;
     uint32_t *reg_add_config4= GPIO_PORT_13_CONFIG_7;
 
+
+
+
+
 	*reg_add_port    |= (1<<5);
 	*reg_add_config  |= (6<<20);
 
@@ -99,6 +105,8 @@ void Gpio_peripheral_init(void)
 
 	*reg_add_port4   |= (1<<7);
 	*reg_add_config4 |= (6<<28);
+
+	*reg_add_config1 |=(1<<19);
 
 
 }
@@ -122,30 +130,46 @@ void Blink_led(void)
     uint32_t *reg_add_outset4= GPIO_PORT_13_OUTSET_7;
     uint32_t *reg_add_outclr4= GPIO_PORT_13_OUTCLR_7;
 
-	*reg_add_outclr |= (1<<5);
-	cyhal_system_delay_ms(100);
-	*reg_add_outset |= (1<<5);
-	cyhal_system_delay_ms(100);
+    uint32_t *reg_add_pinread = GPIO_PORT_0_PININ_4;
+    uint32_t pin_read = *reg_add_pinread;
 
-	*reg_add_outclr1 |= (1<<3);
-	cyhal_system_delay_ms(100);
-	*reg_add_outset1 |= (1<<3);
-	cyhal_system_delay_ms(100);
 
-	*reg_add_outclr2 |= (1<<1);
-	cyhal_system_delay_ms(100);
-	*reg_add_outset2 |= (1<<1);
-	cyhal_system_delay_ms(100);
+    if(pin_read == BUTTON_PRESSED)
+   {
+        *reg_add_outclr |= (1<<5);
+	    cyhal_system_delay_ms(100);
+	    *reg_add_outset |= (1<<5);
+	    cyhal_system_delay_ms(100);
 
-	*reg_add_outclr3 |= (1<<1);
-	cyhal_system_delay_ms(100);
-	*reg_add_outset3 |= (1<<1);
-	cyhal_system_delay_ms(100);
+	    *reg_add_outclr1 |= (1<<3);
+	     cyhal_system_delay_ms(100);
+	    *reg_add_outset1 |= (1<<3);
+	     cyhal_system_delay_ms(100);
 
-	*reg_add_outclr4 |= (1<<7);
-	cyhal_system_delay_ms(300);
-	*reg_add_outset4 |= (1<<7);
-	cyhal_system_delay_ms(100);
+	    *reg_add_outclr2 |= (1<<1);
+	     cyhal_system_delay_ms(100);
+	    *reg_add_outset2 |= (1<<1);
+	     cyhal_system_delay_ms(100);
+
+	    *reg_add_outclr3 |= (1<<1);
+	     cyhal_system_delay_ms(100);
+	    *reg_add_outset3 |= (1<<1);
+	     cyhal_system_delay_ms(100);
+
+	    *reg_add_outclr4 |= (1<<7);
+	     cyhal_system_delay_ms(300);
+	    *reg_add_outset4 |= (1<<7);
+	     cyhal_system_delay_ms(100);
+   }
+    else
+    {
+    	// Keeping pin high to set LED OFF
+    	*reg_add_outset  |= (1<<5);
+    	*reg_add_outset1 |= (1<<3);
+    	*reg_add_outset2 |= (1<<1);
+    	*reg_add_outset3 |= (1<<1);
+    	*reg_add_outset4 |= (1<<7);
+    }
 }
 
 
