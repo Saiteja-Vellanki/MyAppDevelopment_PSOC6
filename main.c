@@ -39,13 +39,12 @@
 * indemnify Cypress against all liability.
 *******************************************************************************/
 
-#include "cy_pdl.h"
 #include "cyhal.h"
-#include "cybsp.h"
 
 #define MY_APP_LOG "S->MAD_ver_1.0"    //MAD -> My Application Development
 
 #define BUTTON_PRESSED  0
+#define BIT_EXTRACT     (0x10)
 
 /* GPIO_PRT0_IN, pin 4 Read-Only Register.
  * Software Read-Only, Hardware Write-Only
@@ -151,7 +150,7 @@ void Blink_led(void)
     uint32_t *reg_add_outclr4= GPIO_PORT_13_OUTCLR_7;
 
     uint32_t const *reg_add_pinread = GPIO_PORT_0_PININ_4;
-    uint32_t const pin_read = *reg_add_pinread;
+    uint32_t const pin_read = *reg_add_pinread & BIT_EXTRACT;
 
 
     if(pin_read == BUTTON_PRESSED)
@@ -195,18 +194,7 @@ void Blink_led(void)
 
 int main(void)
 {
-    cy_rslt_t result;
-
-    /* Initialize the device and board peripherals */
-    result = cybsp_init() ;
-    if (result != CY_RSLT_SUCCESS)
-    {
-        CY_ASSERT(0);
-    }
-
-    __enable_irq();
-
-     Gpio_peripheral_init();
+	Gpio_peripheral_init();
 
     for (;;)
     {
