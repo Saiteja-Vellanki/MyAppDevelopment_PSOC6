@@ -125,7 +125,7 @@ void Gpio_peripheral_init(void)
 	*reg_add_port4   |= (1<<7);
 	*reg_add_config4 |= (6<<28);
 
-	*reg_add_config1 |=(1<<19);
+	*reg_add_config1 |= (1<<19);
 
 
 }
@@ -150,6 +150,7 @@ void Blink_led(void)
     uint32_t *reg_add_outclr4= GPIO_PORT_13_OUTCLR_7;
 
     uint32_t const *reg_add_pinread = GPIO_PORT_0_PININ_4;
+    //Bit Masking to extract a particular bit
     uint32_t const pin_read = *reg_add_pinread & BIT_EXTRACT;
 
 
